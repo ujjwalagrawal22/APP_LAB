@@ -6,23 +6,26 @@ struct Node{
     struct Node *next;
 };
 
-struct Node* createNode(int n)
+struct Node *createNode(int n)
 {
-    struct Node *node=(struct Node*) malloc(sizeof(struct Node));
+    struct Node *node=(struct Node *)malloc (sizeof(struct Node));
     node->value=n;
     node->next=NULL;
     return node;
 }
 
-void insertatEnd(struct Node* head,int n)
+void insertatEnd(struct Node *head,int n)
 {
-    struct Node *temp=head;
-    while(temp->next!=NULL)
-    {
-        temp=temp->next;
-    }
-    temp->next=createNode(n);
-    return;
+struct Node *temp=head;
+
+while(temp->next!=NULL)
+{
+    temp=temp->next;
+}
+
+temp->next=createNode(n);
+
+return;
 
 }
 
@@ -42,19 +45,36 @@ void deleteEnd(struct Node* head)
 {
     struct Node* temp=head; 
 
-    while(temp->next!=NULL)
+    while(temp->next->next!=NULL)
     {
-
+        temp=temp->next;
     }
 
+    struct Node* t=temp->next;
+    temp->next=NULL;
+    free(t);
 }
 
-// deletePos(struct Node* head)
-// {
+struct Node *deletePos(struct Node* head,int k)
+{
+    int count=1;
+    struct Node *temp=head;
+    while(count<k)
+    {
+     temp=temp->next;
+     count=count+1;
+    }
 
-// }
+     struct Node *t= temp->next;
+     struct Node *s= t->next;
 
-void printlist(struct Node* head)
+     temp->next=s;
+     free(t);   
+
+     return head;    
+}
+
+void printlist (struct Node* head)
 {
     struct Node* temp=head;
 
@@ -69,7 +89,10 @@ void printlist(struct Node* head)
 
 int main()
 {
+    int k;
     struct Node *head=createNode(1);
+
+    scanf("%d",&k);
     
     insertatEnd(head,2);
     insertatEnd(head,5);
@@ -83,8 +106,8 @@ int main()
     deleteEnd(head);
     printlist(head);
 
-    // deletePos(head);
-     //printlist(head);    
+    head=deletePos(head,k);
+    printlist(head);    
 
 
 
